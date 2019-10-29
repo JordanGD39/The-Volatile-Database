@@ -1,6 +1,8 @@
 // TheVolatileDatabase.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+//These scripts are made by Jordan Pignato GD2B
+
 #include <iostream>
 #include "Product.h"
 #include "Player.h"
