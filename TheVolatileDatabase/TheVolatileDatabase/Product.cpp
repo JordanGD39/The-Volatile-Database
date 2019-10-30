@@ -18,6 +18,11 @@ std::string Product::GetName()
 	return name;
 }
 
+std::string Product::GetDes()
+{
+	return description;
+}
+
 void Product::SetName(std::string aName)
 {
 	name = aName;

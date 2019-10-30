@@ -7,33 +7,50 @@
 #include "Product.h"
 #include "Player.h"
 
-void StartGame(float g, std::list<Product> b, std::list<Product> newProducts)
+void StartGame() 
 {
 	int i;
 
-	Product product("Leek", "An ordinary leek", 39, Product::SWORD);
-	Product product2("Guitar", "An old guitar", 50, Product::AXE);
-	Product product3("Mic Stand", "An normal mic stand", 45, Product::LANCE);
-	Product product4("Drum stick", "An drum stick", 20, Product::BOW);
-	Product product5("Elfire", "An magic book", 200, Product::MAGIC);
+	std::list<Product> bought;
+	std::list<Product> newProducts;
+	std::list<Product> oldProducts;
 
-	Player player(g);
-	player.SetBought(b);
+	oldProducts.push_back(Product("Leek", "An ordinary leek", 39, Product::SWORD));
+	oldProducts.push_back(Product("Guitar", "An old guitar", 50, Product::AXE));
+	oldProducts.push_back(Product("Mic Stand", "An normal mic stand", 45, Product::LANCE));
+	oldProducts.push_back(Product("Drum stick", "An drum stick", 20, Product::BOW));
+	oldProducts.push_back(Product("Elfire", "An magic book", 200, Product::MAGIC));
+
+	Player player(390);
+	player.SetBought(bought);
 
 	while (true)
 	{
 		std::cout << "You have " << player.GetGold() << " gold to spend\n";
 
-		std::cout << "You're choices are:\n" << "-1: Suprise me\n" << "0: List of what you bought\n" << "1: " << product.GetName() << " | " << product.GetCost() << " gold\n" << "2: " << product2.GetName() << " | " << product2.GetCost() << " gold\n" << "3: " << product3.GetName() << " | " << product3.GetCost() << " gold\n" << "4: " << product4.GetName() << " | " << product4.GetCost() << " gold\n" << "5: " << product5.GetName() << " | " << product5.GetCost() << " gold\n" << "6: Make a new item\n";
-		int index = 7;
+		std::cout << "You're choices are:\n" << "-1: Suprise me\n" << "0: List of what you bought\n";
+
+		int index = 1;
+
+		for (Product pr : oldProducts)
+		{
+			std::cout << index << ": " << pr.GetName() << " | "<< pr.GetDes() << " | " << pr.GetCost() << " gold\n";
+			index++;
+		}
+
+		std::cout << "6: Make a new item\n";
+
+		index = 7;
 
 		for (Product pr : newProducts)
 		{
-			std::cout << index << ": " << pr.GetName() << " | " << pr.GetCost() << " gold\n";
+			std::cout << index << ": " << pr.GetName() << " | " << pr.GetDes() << " | " << pr.GetCost() << " gold\n";
 			index++;
 		}
 
 		int randNum = 0;
+
+		index -= 1;
 
 		if (!newProducts.empty())
 		{
@@ -53,11 +70,11 @@ void StartGame(float g, std::list<Product> b, std::list<Product> newProducts)
 		std::string prName = "";
 		std::string des = "";
 		float prCost = 0;
-		Product::WeaponType waah = Product::SWORD;
+		Product::WeaponType weaponType = Product::SWORD;
 		int inputWeapon = 0;
-		Product productNew(prName, des, prCost, waah);
+		Product productNew(prName, des, prCost, weaponType);
 
-		index = 7;
+		index = 1;
 		bool foundProduct = false;
 
 		std::cout << "\n";
@@ -70,69 +87,9 @@ void StartGame(float g, std::list<Product> b, std::list<Product> newProducts)
 		switch (i)
 		{
 		case 0:
-			for (Product pr : b)
+			for (Product pr : bought)
 			{
 				std::cout << pr.GetName() << "\n";
-			}
-			break;
-		case 1:
-			if (player.GetGold() >= product.GetCost())
-			{
-				b.push_back(product);
-				player.SetGold(player.GetGold() - product.GetCost());
-				std::cout << "You bought the " << product.GetName() << "\n" << "You have: " << player.GetGold() << " left\n";
-			}
-			else
-			{
-				std::cout << "You don't have enough money\n";
-			}
-			break;
-		case 2:
-			if (player.GetGold() >= product2.GetCost())
-			{
-				b.push_back(product2);
-				player.SetGold(player.GetGold() - product2.GetCost());
-				std::cout << "You bought the " << product2.GetName() << "\n" << "You have: " << player.GetGold() << " left\n";
-			}
-			else
-			{
-				std::cout << "You don't have enough money\n";
-			}
-			break;
-		case 3:
-			if (player.GetGold() >= product3.GetCost())
-			{
-				b.push_back(product3);
-				player.SetGold(player.GetGold() - product3.GetCost());
-				std::cout << "You bought the " << product3.GetName() << "\n" << "You have: " << player.GetGold() << " left\n";
-			}
-			else
-			{
-				std::cout << "You don't have enough money\n";
-			}
-			break;
-		case 4:
-			if (player.GetGold() >= product4.GetCost())
-			{
-				b.push_back(product4);
-				player.SetGold(player.GetGold() - product4.GetCost());
-				std::cout << "You bought the " << product4.GetName() << "\n" << "You have: " << player.GetGold() << " left\n";
-			}
-			else
-			{
-				std::cout << "You don't have enough\n";
-			}
-			break;
-		case 5:
-			if (player.GetGold() >= product5.GetCost())
-			{
-				b.push_back(product5);
-				player.SetGold(player.GetGold() - product5.GetCost());
-				std::cout << "You bought the " << product5.GetName() << "\n" << "You have: " << player.GetGold() << " left\n";
-			}
-			else
-			{
-				std::cout << "You don't have enough money\n";
 			}
 			break;
 		case 6:
@@ -147,37 +104,53 @@ void StartGame(float g, std::list<Product> b, std::list<Product> newProducts)
 			switch (inputWeapon)
 			{
 			case 1:
-				waah = Product::SWORD;
+				weaponType = Product::SWORD;
 				break;
 			case 2:
-				waah = Product::AXE;
+				weaponType = Product::AXE;
 				break;
 			case 3:
-				waah = Product::LANCE;
+				weaponType = Product::LANCE;
 				break;
 			case 4:
-				waah = Product::BOW;
+				weaponType = Product::BOW;
 				break;
 			case 5:
-				waah = Product::MAGIC;
+				weaponType = Product::MAGIC;
 				break;
 			}
 
 			productNew.SetName(prName);
 			productNew.SetDes(des);
 			productNew.SetCost(prCost);
-			productNew.SetType(waah);
+			productNew.SetType(weaponType);
 
 			newProducts.push_back(productNew);
 
 			break;
 		default:
 
+			for (Product pr : oldProducts)
+			{
+				if (index == i)
+				{
+					bought.push_back(pr);
+					player.SetGold(player.GetGold() - pr.GetCost());
+					std::cout << "You bought the " << pr.GetName() << "\n" << "You have: " << player.GetGold() << " left\n";
+					foundProduct = true;
+					break;
+				}
+
+				index++;
+			}
+
+			index = 7;
+
 			for (Product pr : newProducts)
 			{
 				if (index == i)
 				{
-					b.push_back(pr);
+					bought.push_back(pr);
 					player.SetGold(player.GetGold() - pr.GetCost());
 					std::cout << "You bought the " << pr.GetName() << "\n" << "You have: " << player.GetGold() << " left\n";
 					foundProduct = true;
@@ -199,8 +172,7 @@ void StartGame(float g, std::list<Product> b, std::list<Product> newProducts)
 
 int main()
 {
-	std::list<Product> a;
-	StartGame(390, a, a);
+	StartGame();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

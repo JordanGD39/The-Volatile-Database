@@ -17,6 +17,7 @@ public:
 	~Product();
 
 	std::string GetName();
+	std::string GetDes();
 	void SetName(std::string aName);
 	float GetCost();	
 	void SetCost(float g);	
